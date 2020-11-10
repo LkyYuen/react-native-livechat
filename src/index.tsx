@@ -3,6 +3,7 @@ import {
   BackHandler,
   NativeEventEmitter,
   EventSubscription,
+  StatusBar
 } from 'react-native';
 import { useState, useEffect } from 'react';
 const { RNLiveChat } = NativeModules;
@@ -31,6 +32,7 @@ export const useLiveChat = (): RNLiveChatType => {
   const [liveChatShowed, setLiveChatShowed] = useState<boolean>(false);
 
   const presentChat = () => {
+    StatusBar.setHidden(true, 'none');
     RNLiveChat.presentChat();
   };
 
@@ -52,6 +54,9 @@ export const useLiveChat = (): RNLiveChatType => {
     const handleLiveChatVisibilityChanged = emitter.addListener(
       'onChatWindowVisibilityChanged',
       ({ visible }) => {
+        if (!visible) {
+          StatusBar.setHidden(false, 'none');
+        }
         setLiveChatShowed(visible);
       }
     );
