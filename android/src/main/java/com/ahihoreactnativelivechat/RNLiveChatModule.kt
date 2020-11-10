@@ -7,6 +7,7 @@ import androidx.annotation.Nullable
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.livechatinc.inappchat.ChatWindowConfiguration
+import com.livechatinc.inappchat.ChatWindowErrorType
 import com.livechatinc.inappchat.ChatWindowView
 import com.livechatinc.inappchat.models.NewMessageModel
 
@@ -150,6 +151,10 @@ class RNLiveChatModule(reactContext: ReactApplicationContext) : ReactContextBase
     val map: WritableMap = WritableNativeMap()
     map.putBoolean("visible", visible)
     sendEvent(EVENT_ON_CHAT_WINDOW_VISIBILITY_CHANGED, map)
+  }
+
+  override fun onError(errorType: ChatWindowErrorType?, errorCode: Int, errorDescription: String?): Boolean {
+    TODO("Not yet implemented")
   }
 
   private fun initChatWindow(configuration: ChatWindowConfiguration) {
