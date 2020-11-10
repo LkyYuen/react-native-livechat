@@ -15,7 +15,7 @@ type RNLiveChatEvent = 'onChatWindowVisibilityChanged';
 type RNLiveChatType = {
   initialize(license: string): void;
   setGroup(groupId: string): void;
-  presentChat(): void;
+  presentChat(hideStatusBar: boolean): void;
   setCustomer(name: string, email: string): void;
   setVariable(key: string, value: string): void;
   // Only available on Android
@@ -31,8 +31,8 @@ type RNLiveChatType = {
 export const useLiveChat = (): RNLiveChatType => {
   const [liveChatShowed, setLiveChatShowed] = useState<boolean>(false);
 
-  const presentChat = () => {
-    StatusBar.setHidden(true, 'none');
+  const presentChat = ({ hideStatusBar = true }) => {
+    StatusBar.setHidden(hideStatusBar, 'none');
     RNLiveChat.presentChat();
   };
 
