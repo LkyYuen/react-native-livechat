@@ -3,7 +3,8 @@ import {
   BackHandler,
   NativeEventEmitter,
   EventSubscription,
-  StatusBar
+  StatusBar,
+  Platform
 } from 'react-native';
 import { useState, useEffect } from 'react';
 const { RNLiveChat } = NativeModules;
@@ -46,12 +47,12 @@ export const useLiveChat = (): RNLiveChatType => {
       }
     };
 
-    const backHandlerListener = BackHandler.addEventListener(
+    var backHandlerListener = Platform.OS === "android" ? BackHandler.addEventListener(
       'hardwareBackPress',
       onHardwareBackButtonPress
-    );
+    ) : null;
 
-    const handleLiveChatVisibilityChanged = emitter.addListener(
+    var handleLiveChatVisibilityChanged = Platform.OS === "android"? emitter.addListener(
       'onChatWindowVisibilityChanged',
       ({ visible }) => {
         if (!visible) {
@@ -59,11 +60,13 @@ export const useLiveChat = (): RNLiveChatType => {
         }
         setLiveChatShowed(visible);
       }
-    );
+    ) : null;
 
     return () => {
-      backHandlerListener.remove();
+      if (Platform.OS === "android"){
+        backHandlerListener.remove();
       handleLiveChatVisibilityChanged.remove();
+      }
     };
   }, [liveChatShowed]);
 
