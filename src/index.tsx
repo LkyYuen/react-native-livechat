@@ -64,8 +64,12 @@ export const useLiveChat = (): RNLiveChatType => {
 
     return () => {
       if (Platform.OS === "android"){
-        backHandlerListener.remove();
-      handleLiveChatVisibilityChanged.remove();
+        if (backHandlerListener != null) {
+          backHandlerListener.remove();
+        }
+        if (handleLiveChatVisibilityChanged != null) {
+          handleLiveChatVisibilityChanged.remove();
+        }
       }
     };
   }, [liveChatShowed]);
