@@ -142,6 +142,11 @@ class RNLiveChatModule(reactContext: ReactApplicationContext) : ReactContextBase
 
   override fun handleUri(uri: Uri?): Boolean {
     val map: WritableMap = WritableNativeMap()
+    if (uri.toString().contains("expired_chat_link")) {
+      map.putString("uri", uri.toString())
+      sendEvent(EVENT_ON_HANDLE_URL, map)
+      return true;
+    }
     map.putString("uri", uri.toString())
     sendEvent(EVENT_ON_HANDLE_URL, map)
     return false
