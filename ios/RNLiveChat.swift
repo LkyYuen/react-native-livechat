@@ -38,4 +38,10 @@ class RNLiveChat: NSObject {
             LiveChat.setVariable(withKey: key, value: value)
         }
     }
+
+    @objc func handle(URL: URL) {
+        if URL.absoluteString.contains("expired_chat_link") {
+            return
+        }
+    }
 }
